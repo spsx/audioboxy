@@ -2,12 +2,13 @@ import os
 import pygame
 import tkinter as tk
 from tkinter import messagebox, filedialog
+import subprocess
 
 class MP3PlayerApp:
     def __init__(self, root):
         self.root = root
         self.root.title("MP3 Player")
-        self.root.geometry("800x480")
+        self.root.geometry("400x600")
 
         self.init_pygame()
 
@@ -16,6 +17,12 @@ class MP3PlayerApp:
             root, text="Select USB Drive", command=self.select_usb_directory
         )
         self.select_usb_button.pack(pady=10)
+
+        # Add a button to connect to Bluetooth speaker
+        self.connect_bluetooth_button = tk.Button(
+            root, text="Connect Bluetooth Speaker", command=self.connect_bluetooth_speaker
+        )
+        self.connect_bluetooth_button.pack(pady=10)
 
         # Frame to hold buttons for MP3 files
         self.button_frame = tk.Frame(root)
@@ -72,6 +79,15 @@ class MP3PlayerApp:
         pygame.mixer.music.load(file_path)
         pygame.mixer.music.play()
         messagebox.showinfo("Playing", f"Now playing: {filename}")
+
+    def connect_bluetooth_speaker(self):
+        """Connects to a Bluetooth speaker using bluetoothctl."""
+        try:
+            # Launch bluetoothctl for pairing and connecting
+            subprocess.run("bluetoothctl", shell=True)
+            messagebox.showinfo("Bluetooth", "Use the terminal to pair and connect to your Bluetooth speaker.")
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to launch bluetoothctl: {e}")
 
 if __name__ == "__main__":
     root = tk.Tk()
