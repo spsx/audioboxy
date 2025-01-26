@@ -8,25 +8,24 @@ class MP3PlayerApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Audio Player")
-        #self.root.geometry("800x480")
 
         # Set the window to full-screen
         self.root.attributes('-fullscreen', True)  # Set the window to full-screen mode
-
+        self.root.resizable(False, False)
 
         self.init_pygame()
 
         # Add a button to select USB drive directory
         self.select_usb_button = tk.Button(
-            root, text="Select USB Drive", command=self.select_usb_directory
+            root, text="Select USB Drive", command=self.select_usb_directory, width=20, height=5
         )
-        self.select_usb_button.pack(pady=10)
+        self.select_usb_button.place(x=50, y=50)  # Use 'place' to control the position
 
         # Add a button to connect to Bluetooth speaker
         self.connect_bluetooth_button = tk.Button(
-            root, text="Connect Bluetooth Speaker", command=self.connect_bluetooth_speaker
+            root, text="Connect Bluetooth Speaker", command=self.connect_bluetooth_speaker, width=20, height=5
         )
-        self.connect_bluetooth_button.pack(pady=10)
+        self.connect_bluetooth_button.place(x=50, y=150)  # Position below the first button
 
         # Frame to hold buttons for audio files
         self.button_frame = tk.Frame(root)
@@ -40,7 +39,8 @@ class MP3PlayerApp:
         pygame.mixer.init()
 
     def select_usb_directory(self):
-        directory = filedialog.askdirectory(title="Select USB Drive")
+        # Open file dialog starting from /media directory
+        directory = filedialog.askdirectory(initialdir='/media', title="Select USB Drive")
         if directory:
             self.current_directory = directory
             self.scan_audio_files()
@@ -72,6 +72,7 @@ class MP3PlayerApp:
                 self.button_frame,
                 text=audio,
                 command=lambda file=audio: self.play_audio(file),
+                width=20, height=5  # Set button size to 100x80 pixels (approximately)
             )
             button.pack(fill=tk.X, pady=2)
 
