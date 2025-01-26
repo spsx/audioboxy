@@ -11,7 +11,7 @@ class MP3PlayerApp:
 
         # Set the window to full-screen
         self.root.attributes('-fullscreen', True)  # Set the window to full-screen mode
-        self.root.resizable(False, False)
+        #self.root.resizable(False, False)
 
         self.init_pygame()
 
