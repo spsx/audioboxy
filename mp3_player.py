@@ -10,8 +10,8 @@ class MP3PlayerApp:
         self.root.title("Audio Player")
 
         # Set the window to full-screen
-        self.root.attributes('-fullscreen', True)  # Set the window to full-screen mode
-        #self.root.resizable(False, False)
+        self.root.attributes('-fullscreen', False)  # Can change back to True later
+        self.root.resizable(True, True)  # Allow resizing
 
         self.init_pygame()
 
@@ -19,7 +19,7 @@ class MP3PlayerApp:
         self.select_usb_button = tk.Button(
             root, text="Select USB Drive", command=self.select_usb_directory, width=20, height=5
         )
-        self.select_usb_button.place(x=50, y=50)  # Use 'place' to control the position
+        self.select_usb_button.place(x=50, y=50)  # Position the button
 
         # Add a button to connect to Bluetooth speaker
         self.connect_bluetooth_button = tk.Button(
@@ -27,9 +27,9 @@ class MP3PlayerApp:
         )
         self.connect_bluetooth_button.place(x=50, y=150)  # Position below the first button
 
-        # Frame to hold buttons for audio files
+        # Frame to hold buttons for audio files (use .pack())
         self.button_frame = tk.Frame(root)
-        self.button_frame.pack(fill=tk.BOTH, expand=True)
+        self.button_frame.pack(fill=tk.BOTH, expand=True)  # Fill the remaining space
 
         # Store the current directory and audio files
         self.current_directory = None
@@ -74,7 +74,7 @@ class MP3PlayerApp:
                 command=lambda file=audio: self.play_audio(file),
                 width=20, height=5  # Set button size to 100x80 pixels (approximately)
             )
-            button.pack(fill=tk.X, pady=2)
+            button.pack(fill=tk.X, pady=2)  # Fill horizontally with padding between buttons
 
     def play_audio(self, filename):
         """Plays the selected audio file."""
