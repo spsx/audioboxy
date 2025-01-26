@@ -7,7 +7,7 @@ import subprocess
 class MP3PlayerApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("MP3 Player")
+        self.root.title("Audio Player")
         self.root.geometry("400x600")
 
         self.init_pygame()
@@ -24,13 +24,13 @@ class MP3PlayerApp:
         )
         self.connect_bluetooth_button.pack(pady=10)
 
-        # Frame to hold buttons for MP3 files
+        # Frame to hold buttons for audio files
         self.button_frame = tk.Frame(root)
         self.button_frame.pack(fill=tk.BOTH, expand=True)
 
-        # Store the current directory and mp3 files
+        # Store the current directory and audio files
         self.current_directory = None
-        self.mp3_files = []
+        self.audio_files = []
 
     def init_pygame(self):
         pygame.mixer.init()
@@ -39,40 +39,40 @@ class MP3PlayerApp:
         directory = filedialog.askdirectory(title="Select USB Drive")
         if directory:
             self.current_directory = directory
-            self.scan_mp3_files()
+            self.scan_audio_files()
 
-    def scan_mp3_files(self):
-        """Scans the selected directory for MP3 files."""
+    def scan_audio_files(self):
+        """Scans the selected directory for MP3 and WAV files."""
         if not self.current_directory:
             messagebox.showerror("Error", "No directory selected!")
             return
 
-        self.mp3_files = [
-            f for f in os.listdir(self.current_directory) if f.lower().endswith(".mp3")
+        self.audio_files = [
+            f for f in os.listdir(self.current_directory) if f.lower().endswith((".mp3", ".wav"))
         ]
 
-        if not self.mp3_files:
-            messagebox.showinfo("No Files", "No MP3 files found in the selected directory.")
+        if not self.audio_files:
+            messagebox.showinfo("No Files", "No MP3 or WAV files found in the selected directory.")
             return
 
-        self.display_mp3_buttons()
+        self.display_audio_buttons()
 
-    def display_mp3_buttons(self):
-        """Displays a button for each MP3 file."""
+    def display_audio_buttons(self):
+        """Displays a button for each audio file."""
         # Clear previous buttons
         for widget in self.button_frame.winfo_children():
             widget.destroy()
 
-        for mp3 in self.mp3_files:
+        for audio in self.audio_files:
             button = tk.Button(
                 self.button_frame,
-                text=mp3,
-                command=lambda file=mp3: self.play_mp3(file),
+                text=audio,
+                command=lambda file=audio: self.play_audio(file),
             )
             button.pack(fill=tk.X, pady=2)
 
-    def play_mp3(self, filename):
-        """Plays the selected MP3 file."""
+    def play_audio(self, filename):
+        """Plays the selected audio file."""
         file_path = os.path.join(self.current_directory, filename)
         if pygame.mixer.music.get_busy():
             pygame.mixer.music.stop()
